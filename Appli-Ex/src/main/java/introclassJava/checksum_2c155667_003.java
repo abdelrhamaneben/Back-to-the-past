@@ -43,6 +43,7 @@ class CharObj {
 public class checksum_2c155667_003 {
     public java.util.Scanner scanner;
     public String output = "";
+    public int blabla = -1;
 
     public static void main (String[]args) throws Exception {
         checksum_2c155667_003 mainClass = new checksum_2c155667_003 ();

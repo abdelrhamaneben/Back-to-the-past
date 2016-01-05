@@ -1,9 +1,10 @@
 package controlers;
 
+import java.io.IOException;
+
+import org.apache.maven.shared.invoker.MavenInvocationException;
 import org.junit.runner.JUnitCore;
 import org.junit.runner.Result;
-
-import introclassJava.checksum_2c155667_003WhiteboxTest;
 import spoon.Launcher;
 import spoon.reflect.factory.Factory;
 
@@ -11,11 +12,31 @@ public class app {
 
 	public static void main(String[] args) {
 		
+		// DEFAULT PARAMS
+		String pomURL = "/Users/abdelrhamanebenhammou/Desktop/Back-to-the-past/Appli-Ex/pom.xml";
+		String ProjectPath = pomURL.replace("pom.xml", "");
+		String inputMain = pomURL.replace("pom.xml", "src/main/");
+		
+		try {
+			commander.cleanCompileTest(pomURL);
+		} catch (MavenInvocationException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		/*try {
+			commander.resetTmpFolder();
+		} catch (SecurityException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		Class TestClass = checksum_2c155667_003WhiteboxTest.class;
+		
 		// LANCEMENT INITIAL DES TESTS
-		JUnitCore core = new JUnitCore();
-		Result result = core.run(checksum_2c155667_003WhiteboxTest.class);
-		int initialError  = result.getFailureCount();
-		System.out.println("initial Errors : " + initialError);
+		int initialError  = commander.launchtest(TestClass);
 		
 		// GENERATION DE MUTANT
 		mutantGenerator gen = new mutantGenerator();
@@ -25,7 +46,7 @@ public class app {
        
         spoon.addProcessor(gen);
      
-        String inputMain = "/Users/abdelrhamanebenhammou/Desktop/Back-to-the-past/Appli-Ex/src/main/java";
+       
         int nbMutant = 0;
         while(true) {
 	        int [] arrayInt = new int[5];
@@ -39,18 +60,18 @@ public class app {
 	        	gen.MUTED = false;
 	        	gen.setValue(i);
 	        	spoon.run(new String[]{"-i",inputMain});
-	        	launchTest(initialError);	
+	        	launchTest(initialError,TestClass);	
 	        }
 	        if(nbMutant == gen.trace.size()) break;
 	        
-        }
+        }*/
         System.out.println("Sorti");
 	}
 	
-	public static  boolean launchTest(int initialError){
+	/*public static  boolean launchTest(int initialError,Class TestClass){
+		return (commander.launchtest(TestClass) < initialError);
 		// SI IL Y A DES TESTS DE RÉSOLU AVEC CETTE MUTATION ON PREND LE CODE MUTÉ COMME NOUVELLE SOURCE
-		return false;
-	}
+	}*/
 }
 
 

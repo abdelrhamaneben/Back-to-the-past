@@ -4,8 +4,13 @@ import org.junit.Test;
 import static org.junit.Assert.assertEquals;
 public class checksum_2c155667_003WhiteboxTest {
 
+    @Test (timeout = 1000) public void test0 () throws Exception {
+        checksum_2c155667_003 mainClass = new checksum_2c155667_003 ();
+        assertEquals (mainClass.blabla,0);
+    }
     @Test (timeout = 1000) public void test1 () throws Exception {
         checksum_2c155667_003 mainClass = new checksum_2c155667_003 ();
+
         String expected =
             "Enter an abitrarily long string, ending with carriage return > Check sum is ]";
         mainClass.scanner = new java.util.Scanner ("hello world!");
