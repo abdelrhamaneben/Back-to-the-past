@@ -12,41 +12,23 @@ import spoon.reflect.code.CtVariableWrite;
  * @author benhammou
  *
  */
-public class mutantGeneratorLiteralInt extends AbstractProcessor<CtLiteral<Integer>>{
+public class mutantGeneratorLiteralInt extends abstractGenerator<CtLiteral<Integer>>{
 	
 	/**
 	 * Représente la liste des mutation précedente
 	 */
 	public static ArrayList<String> trace = new ArrayList<String>();
-	/**
-	 * Défini si une mutation à déja eu lieu
-	 */
-	public static boolean MUTED = false;
-	/**
-	 * Représente le rang de la mutation à adopter
-	 */
-	public int rang;
-
+	
+	
 	/**
 	 * Constructeur : définir par default le rang à 1
 	 */
 	public mutantGeneratorLiteralInt() {
-		this.rang = 1;
+		super(7);
 	}
-	
-	/**
-	 *  Definir le rang de mutation
-	 * @param rang représente le nouvelle mutation à adopter
-	 */
-	public void setRang(int rang) {
-		this.rang = rang;
-	}
-	
-	/**
-	 * Accepter les valeurs constante numérique jamais modifié par le generateur de mutant 
-	 */
+
 	@Override
-	public boolean isToBeProcessed(CtLiteral<Integer> element) {
+	public boolean acceptableElement(CtLiteral<Integer> element) {
 		if(!element.getType().getSimpleName().equals("int") || MUTED == true) return false;
 		if(trace.contains(element.getParent().getSignature()+" : "+element.getSignature() + " Value : " + this.rang)) {
 			return false;
@@ -84,4 +66,7 @@ public class mutantGeneratorLiteralInt extends AbstractProcessor<CtLiteral<Integ
 		}
 		return -5000;
 	}
+
+
+
 }
