@@ -4,33 +4,42 @@ import java.util.ArrayList;
 import spoon.processing.AbstractProcessor;
 import spoon.reflect.code.CtLiteral;
 /**
- * 
+ * Cette class crée une unique mutation par code spooné
  * @author benhammou
  *
  */
-public class mutantGenerator extends AbstractProcessor<CtLiteral<Integer>>{
+public class mutantGeneratorLiteralInt extends AbstractProcessor<CtLiteral<Integer>>{
 	
+	/**
+	 * Représente la liste des mutation précedente
+	 */
 	public static ArrayList<String> trace = new ArrayList<String>();
+	/**
+	 * Défini si une mutation à déja eu lieu
+	 */
 	public static boolean MUTED = false;
+	/**
+	 * Représente le rang de la mutation à adopter
+	 */
 	public int rang;
 
 	/**
-	 * 
+	 * Constructeur : définir par default le rang à 1
 	 */
-	public mutantGenerator() {
+	public mutantGeneratorLiteralInt() {
 		this.rang = 1;
 	}
 	
 	/**
-	 * 
-	 * @param value
+	 *  Definir le rang de mutation
+	 * @param rang représente le nouvelle mutation à adopter
 	 */
-	public void setValue(int value) {
-		this.rang = value;
+	public void setRang(int rang) {
+		this.rang = rang;
 	}
 	
 	/**
-	 * 
+	 * Accepter les valeurs constante numérique jamais modifié par le generateur de mutant 
 	 */
 	@Override
 	public boolean isToBeProcessed(CtLiteral<Integer> element) {
@@ -43,7 +52,7 @@ public class mutantGenerator extends AbstractProcessor<CtLiteral<Integer>>{
 	}
 	
 	/**
-	 * 
+	 * Modifier la constante courrante
 	 */
 	public void process(CtLiteral<Integer> element) {
 		int oldVal = element.getValue();
@@ -52,10 +61,11 @@ public class mutantGenerator extends AbstractProcessor<CtLiteral<Integer>>{
 		System.out.println("modification de : " + element.toString() + "passage de " + oldVal + " à " + newVal);
 		MUTED = true;
 	}
+	
 	/**
-	 * 
-	 * @param rang
-	 * @param value
+	 * Fournir la nouvelle valeur de constante du mutant
+	 * @param rang représente le numero de la mutation à adopter
+	 * @param value représente la valeur par défaut
 	 * @return
 	 */
 	public  int getNewValue(int rang, int value) {

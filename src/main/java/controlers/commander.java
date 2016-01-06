@@ -15,19 +15,35 @@ import org.apache.maven.shared.invoker.InvocationRequest;
 import org.apache.maven.shared.invoker.InvocationResult;
 import org.apache.maven.shared.invoker.Invoker;
 import org.apache.maven.shared.invoker.MavenInvocationException;
-
+/**
+ * Utilitaire permettant de commander les différentes actions sur le dossier source et le temporaire
+ * @author benhammou
+ *
+ */
 public class commander {
 
+	/**
+	 * Représente le dossier contenant le code à tester
+	 */
 	public static String tmpFolder = ".tmpProject/";
+	/**
+	 * représente l'enplacement du dossier MAVEN utilisé par l'invokerMaven
+	 */
 	public static String MAVEN_HOME_PATH ;
 	
+	/**
+	 * Déplacer le projet à source dans le dossier temporaire de test
+	 * @param src
+	 * @throws IOException
+	 */
 	
 	public static  void moveProjectToTmp(String src) throws IOException {
 		FileUtils.copyDirectory(new File(src),new File(tmpFolder));
 	}
 	
 	/**
-	 * 
+	 * Déplacer le dossier temporaire dans le répertoire source
+	 * (Utiliser pour définir le tmp de test comme dossier source)
 	 * @param src
 	 * @throws IOException
 	 */
@@ -36,7 +52,7 @@ public class commander {
 	}
 	
 	/**
-	 * vide le répertoire temporaire
+	 * vider le répertoire temporaire
 	 * @throws SecurityException
 	 * @throws IOException
 	 */
