@@ -6,6 +6,9 @@ import java.io.IOException;
 import org.apache.maven.shared.invoker.MavenInvocationException;
 import org.junit.runner.JUnitCore;
 import org.junit.runner.Result;
+
+import models.log;
+import mutantGenerators.mutantGeneratorLiteralInt;
 import spoon.Launcher;
 import spoon.reflect.factory.Factory;
 

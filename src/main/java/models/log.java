@@ -1,4 +1,4 @@
-package controlers;
+package models;
 
 import java.io.FileWriter;
 import java.io.IOException;

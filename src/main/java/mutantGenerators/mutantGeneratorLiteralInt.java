@@ -1,4 +1,4 @@
-package controlers;
+package mutantGenerators;
 import java.util.ArrayList;
 
 import spoon.processing.AbstractProcessor;

@@ -15,6 +15,8 @@ import org.apache.maven.shared.invoker.InvocationRequest;
 import org.apache.maven.shared.invoker.InvocationResult;
 import org.apache.maven.shared.invoker.Invoker;
 import org.apache.maven.shared.invoker.MavenInvocationException;
+
+import models.log;
 /**
  * Utilitaire permettant de commander les différentes actions sur le dossier source et le temporaire
  * @author benhammou
