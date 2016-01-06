@@ -1,5 +1,6 @@
 package controlers;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
 
 import org.apache.maven.shared.invoker.MavenInvocationException;
@@ -13,30 +14,18 @@ public class app {
 	public static void main(String[] args) {
 		
 		// DEFAULT PARAMS
-		String pomURL = "/Users/abdelrhamanebenhammou/Desktop/Back-to-the-past/Appli-Ex/pom.xml";
+		//String pomURL = "/Users/abdelrhamanebenhammou/Desktop/Back-to-the-past/Appli-Ex/pom.xml";
+		String pomURL = "/home/m2iagl/benhammou/Bureau/Back-to-the-past/Appli-Ex/pom.xml";
+		// FOR MACOSX
+		//commander.MAVEN_HOME_PATH = "/usr/local/Cellar/maven/3.2.5/libexec";
+		// FOR UNIX
+		commander.MAVEN_HOME_PATH = "/usr/share/maven";
+		
 		String ProjectPath = pomURL.replace("pom.xml", "");
 		String inputMain = pomURL.replace("pom.xml", "src/main/");
 		
-		try {
-			commander.cleanCompileTest(pomURL);
-		} catch (MavenInvocationException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
-		/*try {
-			commander.resetTmpFolder();
-		} catch (SecurityException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		Class TestClass = checksum_2c155667_003WhiteboxTest.class;
-		
-		// LANCEMENT INITIAL DES TESTS
-		int initialError  = commander.launchtest(TestClass);
+		int initialError = launchTest(ProjectPath);
+		int tmpNbFailure = 0;
 		
 		// GENERATION DE MUTANT
 		mutantGenerator gen = new mutantGenerator();
@@ -59,19 +48,35 @@ public class app {
 	        for(int i : arrayInt) {
 	        	gen.MUTED = false;
 	        	gen.setValue(i);
-	        	spoon.run(new String[]{"-i",inputMain});
-	        	launchTest(initialError,TestClass);	
+	        	spoon.run(new String[]{"-i",inputMain,"-o",commander.tmpFolder + "/src/main/java"});
+	        	tmpNbFailure = launchTest(ProjectPath);
+	        	if(tmpNbFailure < initialError) {
+	        		initialError = tmpNbFailure;
+	        		try {
+						commander.moveTmpToProject(ProjectPath);
+					} catch (IOException e) {
+						e.printStackTrace();
+						System.exit(1);
+					}
+	        	}
 	        }
 	        if(nbMutant == gen.trace.size()) break;
 	        
-        }*/
+        }
         System.out.println("Sorti");
 	}
 	
-	/*public static  boolean launchTest(int initialError,Class TestClass){
-		return (commander.launchtest(TestClass) < initialError);
-		// SI IL Y A DES TESTS DE RÉSOLU AVEC CETTE MUTATION ON PREND LE CODE MUTÉ COMME NOUVELLE SOURCE
-	}*/
+	public static int launchTest(String ProjectPath) {
+		try {
+			commander.resetTmpFolder();
+			commander.moveProjectToTmp(ProjectPath);
+			return commander.cleanCompileTest();
+		} catch (Exception e) {
+			e.printStackTrace();
+			System.exit(1);
+		}
+		return 0;
+	}
 }
 
 
