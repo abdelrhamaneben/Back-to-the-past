@@ -24,7 +24,7 @@ public class app {
 		String ProjectPath = pomURL.replace("pom.xml", "");
 		String inputMain = pomURL.replace("pom.xml", "src/main/");
 		
-		int initialError = launchTest(ProjectPath);
+		int initialError = launchTest(ProjectPath,true);
 		int tmpNbFailure = 0;
 		
 		// GENERATION DE MUTANT
@@ -38,18 +38,12 @@ public class app {
        
         int nbMutant = 0;
         while(true) {
-	        int [] arrayInt = new int[5];
-	        arrayInt[0] = -5435;
-	        arrayInt[1] = -5;
-	        arrayInt[2] = 0;
-	        arrayInt[3] = 5;
-	        arrayInt[4] = 5435;
 	        nbMutant = gen.trace.size();
-	        for(int i : arrayInt) {
+	        for(int i  = 1;i<=7;i++) {
 	        	gen.MUTED = false;
 	        	gen.setValue(i);
 	        	spoon.run(new String[]{"-i",inputMain,"-o",commander.tmpFolder + "/src/main/java"});
-	        	tmpNbFailure = launchTest(ProjectPath);
+	        	tmpNbFailure = launchTest(ProjectPath,true);
 	        	if(tmpNbFailure < initialError) {
 	        		initialError = tmpNbFailure;
 	        		try {
@@ -63,12 +57,12 @@ public class app {
 	        if(nbMutant == gen.trace.size()) break;
 	        
         }
-        System.out.println("Sorti");
+        System.out.println("Sortie");
 	}
 	
-	public static int launchTest(String ProjectPath) {
+	public static int launchTest(String ProjectPath,boolean reset) {
 		try {
-			commander.resetTmpFolder();
+			if(reset)  commander.resetTmpFolder();
 			commander.moveProjectToTmp(ProjectPath);
 			return commander.cleanCompileTest();
 		} catch (Exception e) {

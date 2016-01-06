@@ -26,6 +26,11 @@ public class commander {
 		FileUtils.copyDirectory(new File(src),new File(tmpFolder));
 	}
 	
+	/**
+	 * 
+	 * @param src
+	 * @throws IOException
+	 */
 	public static  void moveTmpToProject(String src) throws IOException {
 		FileUtils.copyDirectory(new File(tmpFolder),new File(src));
 	}
@@ -89,8 +94,10 @@ public class commander {
 	    	        if(line.contains("</failure>")) nbFailure++;
 	    	  }
 	    	  System.out.println(listOfFiles[i].getAbsolutePath());
+	    	  scanner.close();
 	      }
 	    }
+	    
 		return nbFailure;
 	}
 }
