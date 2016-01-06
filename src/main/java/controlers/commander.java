@@ -67,6 +67,7 @@ public class commander {
 			resetTmpFolder();
 		}
 	}
+	
 
 	/**
 	 * Compile , test and return the number of failure
@@ -75,7 +76,7 @@ public class commander {
 	 * @throws MavenInvocationException
 	 * @throws FileNotFoundException
 	 */
-	public static int cleanCompileTest() throws MavenInvocationException, FileNotFoundException {
+	public static log cleanCompileTest() throws MavenInvocationException, FileNotFoundException {
 	    InvocationRequest request = new DefaultInvocationRequest();
 	    request.setPomFile(new File(tmpFolder + "/pom.xml"));
 	    request.setGoals(Arrays.asList("clean","compile","test"));
@@ -96,10 +97,11 @@ public class commander {
 	 * @return
 	 * @throws FileNotFoundException
 	 */
-	public static int nbFailure(String ProjectPath) throws FileNotFoundException {
+	public static log nbFailure(String ProjectPath) throws FileNotFoundException {
 		File folder = new File(ProjectPath + "/target/surefire-reports");
 		File[] listOfFiles = folder.listFiles();
 		int nbFailure = 0;
+		int nbError= 0;
 		String line = "";
 		Scanner scanner = null;
 	    for (int i = 0; i < listOfFiles.length; i++) {
@@ -108,12 +110,11 @@ public class commander {
 	    	  while (scanner.hasNextLine()) {
 	    	        line = scanner.nextLine();
 	    	        if(line.contains("</failure>")) nbFailure++;
+	    	        if(line.contains("</error>")) nbError++;
 	    	  }
-	    	  System.out.println(listOfFiles[i].getAbsolutePath());
 	    	  scanner.close();
 	      }
 	    }
-	    
-		return nbFailure;
+	    return new log(nbFailure,nbError);
 	}
 }
