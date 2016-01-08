@@ -106,7 +106,7 @@ public class app {
 	public static log launchTest(String ProjectPath,boolean reset, String pomURL) {
 		try {
 			if(reset) {
-				//commander.resetTmpFolder();
+				commander.resetTmpFolder();
 				commander.moveProjectToTmp(ProjectPath);
 			}
 			return commander.cleanCompileTest();

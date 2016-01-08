@@ -23,6 +23,7 @@ public class mutantGeneratorLiteralInt extends abstractGenerator<CtLiteral<Integ
 
 	@Override
 	public boolean acceptableElement(CtLiteral<Integer> element) {
+		if(!element.getType().getSimpleName().equals("int")) return false;
 		return true;
 	}
 	
