@@ -7,10 +7,12 @@ import org.apache.maven.shared.invoker.MavenInvocationException;
 import org.junit.runner.JUnitCore;
 import org.junit.runner.Result;
 
+import Analysers.invocationsGetter;
 import models.log;
 import mutantGenerators.abstractGenerator;
 import mutantGenerators.mutantGeneratorLitChar;
 import mutantGenerators.mutantGeneratorLiteralInt;
+import mutantGenerators.mutantGeneratorOperator;
 import spoon.Launcher;
 import spoon.reflect.factory.Factory;
 
@@ -35,16 +37,21 @@ public class app {
 	 * @param args prend comme unique paramètre un lien vers un fichier pom.xml contenu dans le projet à corriger
 	 */
 	public static void main(String[] args) {
+		
 		// Valider arguments
-		if(args.length != 2) {
+		if(args.length != 3) {
 			System.out.println("Invalid Parameters");
-			System.out.println("Usage : commande [POM.XML PATH] [MAVEN HOME PATH]");
+			System.out.println("Usage : commande [POM.XML PATH] [MAVEN HOME PATH] [mutation number 1-3]");
+			System.out.println("Mutation 1 : Literal Integer changement");
+			System.out.println("Mutation 2 : Literal Character changement");
+			System.out.println("Mutation 3 : Binary Operator changement");
 			log.writeLog("'error';'0';'null'\n");
 			System.exit(1);
 		}
 		
 		commander.MAVEN_HOME_PATH = args[1];
 		String pomURL = args[0];
+		int MutationNumber = Integer.parseInt(args[2]);
 	
 		String ProjectPath = pomURL.replace("pom.xml", "");
 		String inputMain = pomURL.replace("pom.xml", "src/main/java");
@@ -62,10 +69,14 @@ public class app {
 		}
 		
 		// Définition du generateur de mutation à adopter (Change Literal Int)
-		//abstractGenerator gen = new mutantGeneratorLiteralInt();
-		abstractGenerator gen = new mutantGeneratorLitChar();
+		abstractGenerator gen = null;
+		switch(MutationNumber) {
+			case 1 : gen = new mutantGeneratorLiteralInt();break;
+			case 2 : gen = new mutantGeneratorLitChar();break;
+			default : gen = new mutantGeneratorOperator();break;
+		}
+	
 		Launcher spoon = new Launcher(); 
-        Factory factory = spoon.getFactory();  
         spoon.addProcessor(gen);
      
         // Boucle sur toute les mutations possibles
