@@ -9,6 +9,7 @@ import org.junit.runner.Result;
 
 import models.log;
 import mutantGenerators.abstractGenerator;
+import mutantGenerators.mutantGeneratorLitChar;
 import mutantGenerators.mutantGeneratorLiteralInt;
 import spoon.Launcher;
 import spoon.reflect.factory.Factory;
@@ -61,7 +62,8 @@ public class app {
 		}
 		
 		// Définition du generateur de mutation à adopter (Change Literal Int)
-		abstractGenerator gen = new mutantGeneratorLiteralInt();
+		//abstractGenerator gen = new mutantGeneratorLiteralInt();
+		abstractGenerator gen = new mutantGeneratorLitChar();
 		Launcher spoon = new Launcher(); 
         Factory factory = spoon.getFactory();  
         spoon.addProcessor(gen);

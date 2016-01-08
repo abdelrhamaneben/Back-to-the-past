@@ -8,7 +8,7 @@ public class mutantGeneratorLitChar  extends abstractGenerator<CtLiteral<Charact
 	 * Constructeur Prend comme nombre de mutation le nombre de character possible(128)
 	 */
 	public mutantGeneratorLitChar() {
-		super(128);
+		super(94);
 	}
 
 	public void process(CtLiteral<Character> element) {
@@ -20,10 +20,11 @@ public class mutantGeneratorLitChar  extends abstractGenerator<CtLiteral<Charact
 
 	@Override
 	public boolean acceptableElement(CtLiteral<Character> element) {
+		if(!element.getType().getSimpleName().equals("char")) return false;
 		return true;
 	}
 	
 	public char getValue() {
-		return (char) (this.rang - 1);
+		return (char) (this.rang + 31);
 	}
 }
