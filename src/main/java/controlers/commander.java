@@ -16,6 +16,7 @@ import org.apache.maven.shared.invoker.InvocationResult;
 import org.apache.maven.shared.invoker.Invoker;
 import org.apache.maven.shared.invoker.MavenInvocationException;
 
+import Exceptions.MissingMavenLogException;
 import models.log;
 /**
  * Utilitaire permettant de commander les différentes actions sur le dossier source et le temporaire
@@ -77,8 +78,9 @@ public class commander {
 	 * @return
 	 * @throws MavenInvocationException
 	 * @throws FileNotFoundException
+	 * @throws MissingMavenLogException 
 	 */
-	public static log cleanCompileTest() throws MavenInvocationException, FileNotFoundException {
+	public static log cleanCompileTest() throws MavenInvocationException, FileNotFoundException, MissingMavenLogException {
 	    InvocationRequest request = new DefaultInvocationRequest();
 	    request.setPomFile(new File(tmpFolder + "/pom.xml"));
 	    request.setGoals(Arrays.asList("clean","compile","test"));
@@ -98,14 +100,16 @@ public class commander {
 	 * @param ProjectPath
 	 * @return
 	 * @throws FileNotFoundException
+	 * @throws MissingMavenLogException 
 	 */
-	public static log nbFailure(String ProjectPath) throws FileNotFoundException {
+	public static log nbFailure(String ProjectPath) throws FileNotFoundException, MissingMavenLogException {
 		File folder = new File(ProjectPath + "/target/surefire-reports");
 		File[] listOfFiles = folder.listFiles();
 		int nbFailure = 0;
 		int nbError= 0;
 		String line = "";
 		Scanner scanner = null;
+		if(listOfFiles == null) throw new MissingMavenLogException();
 	    for (int i = 0; i < listOfFiles.length; i++) {
 	      if (listOfFiles[i].isFile() && listOfFiles[i].getName().contains(".xml")) {
 	    	  scanner = new Scanner(listOfFiles[i]);

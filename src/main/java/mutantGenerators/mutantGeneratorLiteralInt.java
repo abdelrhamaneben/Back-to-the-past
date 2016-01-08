@@ -15,12 +15,6 @@ import spoon.reflect.code.CtVariableWrite;
 public class mutantGeneratorLiteralInt extends abstractGenerator<CtLiteral<Integer>>{
 	
 	/**
-	 * Représente la liste des mutation précedente
-	 */
-	public static ArrayList<String> trace = new ArrayList<String>();
-	
-	
-	/**
 	 * Constructeur : définir par default le rang à 1
 	 */
 	public mutantGeneratorLiteralInt() {
@@ -29,11 +23,6 @@ public class mutantGeneratorLiteralInt extends abstractGenerator<CtLiteral<Integ
 
 	@Override
 	public boolean acceptableElement(CtLiteral<Integer> element) {
-		if(!element.getType().getSimpleName().equals("int") || MUTED == true) return false;
-		if(trace.contains(element.getParent().getSignature()+" : "+element.getSignature() + " Value : " + this.rang)) {
-			return false;
-		}
-		trace.add(element.getParent().getSignature()+" : "+element.getSignature()+ " Value : " + this.rang);
 		return true;
 	}
 	
