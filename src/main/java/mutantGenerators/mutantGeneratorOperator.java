@@ -1,6 +1,8 @@
 package mutantGenerators;
 
 import spoon.reflect.code.CtBinaryOperator;
+import spoon.reflect.code.CtCodeSnippetExpression;
+import spoon.reflect.code.CtCodeSnippetStatement;
 import spoon.reflect.code.CtExpression;
 import spoon.reflect.reference.CtTypeReference;
 
@@ -14,7 +16,12 @@ public class mutantGeneratorOperator  extends abstractGenerator<CtBinaryOperator
 	}
 
 	public void process(CtBinaryOperator element) {
-		System.out.println(element.getLeftHandOperand().toString() + getValue() + element.getRightHandOperand());
+		String expression = element.getLeftHandOperand().toString() + getValue() + element.getRightHandOperand();
+		CtCodeSnippetExpression<Boolean> NewBinaryStatement = getFactory().Core()
+				.createCodeSnippetExpression();
+		NewBinaryStatement.setValue('(' + expression + ')');
+		System.out.println(expression);
+		element.replace((CtExpression) NewBinaryStatement);
 		this.MUTED = true;
 	}
 

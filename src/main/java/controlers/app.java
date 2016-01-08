@@ -8,6 +8,7 @@ import org.junit.runner.JUnitCore;
 import org.junit.runner.Result;
 
 import Analysers.invocationsGetter;
+import Exceptions.MissingMavenLogException;
 import models.log;
 import mutantGenerators.abstractGenerator;
 import mutantGenerators.mutantGeneratorLitChar;
@@ -35,8 +36,12 @@ public class app {
 	/**
 	 * Lanceur principale
 	 * @param args prend comme unique paramètre un lien vers un fichier pom.xml contenu dans le projet à corriger
+	 * @throws IOException 
+	 * @throws SecurityException 
+	 * @throws MissingMavenLogException 
+	 * @throws MavenInvocationException 
 	 */
-	public static void main(String[] args) {
+	public static void main(String[] args) throws SecurityException, IOException, MavenInvocationException, MissingMavenLogException {
 		
 		// Valider arguments
 		if(args.length != 3) {
@@ -84,25 +89,28 @@ public class app {
         while(true) {
 	        nbMutant = gen.trace.size();
 	        for(int i  = 1;i<= gen.round;i++) {
-	        	gen.MUTED = false;
-	        	gen.setRang(i);
-	        	spoon.run(new String[]{"-i",inputMain,"-o",commander.tmpFolder + "/src/main/java"});
-	        	logtest = launchTest(ProjectPath,false,pomURL);
-	        	System.out.println("Failure détecté : " + logtest.failure + ", Errors : " + logtest.error);
-	        	if(logtest.failure < initialError.failure && logtest.error <= initialError.error) {
-	        		bugDelete += initialError.failure -logtest.failure ;
-	        		initialError.error = logtest.error;
-	        		initialError.failure = logtest.failure;
-	        		try {
-						commander.moveTmpToProject(ProjectPath);
-						nbDeplacement++;
-					} catch (IOException e) {
-						e.printStackTrace();
-						log.writeLog("'error';'2';'" + pomURL+ "'\n");
-						System.exit(1);
-					}
+	        	try{
+	        		gen.MUTED = false;
+		        	gen.setRang(i);
+		        	spoon.run(new String[]{"-i",inputMain,"-o",commander.tmpFolder + "/src/main/java"});
+		        	logtest = launchTest(ProjectPath,false,pomURL);
+		        	System.out.println("Failure détecté : " + logtest.failure + ", Errors : " + logtest.error);
+		        	if(logtest.failure < initialError.failure && logtest.error <= initialError.error) {
+		        		bugDelete += initialError.failure -logtest.failure ;
+		        		initialError.error = logtest.error;
+		        		initialError.failure = logtest.failure;
+		        		try {
+							commander.moveTmpToProject(ProjectPath);
+							nbDeplacement++;
+						} catch (IOException e) {
+							e.printStackTrace();
+							log.writeLog("'error';'2';'" + pomURL+ "'\n");
+							System.exit(1);
+						}
+		        	}
+	        	}catch(Exception e) {
+	        		System.out.println("____________________ERROR_____________________");
 	        	}
-	        	 
 	        }
 	        if(nbMutant == gen.trace.size() || initialError.failure == 0) break;
 	       
@@ -115,21 +123,19 @@ public class app {
 	 * Lancer les tests sur le projet temporaire
 	 * @param ProjectPath représente le dossier du projet source
 	 * @return
+	 * @throws IOException 
+	 * @throws SecurityException 
+	 * @throws MissingMavenLogException 
+	 * @throws MavenInvocationException 
 	 */
-	public static log launchTest(String ProjectPath,boolean reset, String pomURL) {
-		try {
+	public static log launchTest(String ProjectPath,boolean reset, String pomURL) throws SecurityException, IOException, MavenInvocationException, MissingMavenLogException {
+		
 			if(reset) {
 				commander.resetTmpFolder();
 				commander.moveProjectToTmp(ProjectPath);
 			}
 			return commander.cleanCompileTest();
-		} catch (Exception e) {
-			int typeError = (reset)?1:3;
-			e.printStackTrace();
-			log.writeLog("'error';'"+typeError+"';'" + pomURL+ "'\n");
-			System.exit(1);
-		}
-		return new log();
+		
 	}
 }
 
