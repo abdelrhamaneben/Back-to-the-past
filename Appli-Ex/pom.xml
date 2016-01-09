@@ -5,7 +5,7 @@
 	<groupId>fr.inria.lille.spirals</groupId>
 	<artifactId>introclassJava</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>digits-98d873cde39437ae581e6b61ce30ca54634c9c1517b46a0f2774cb12db474b5a37759281b19283c60dbcfa44ac3e05d474a896310f64e8533603b1db73457494-004</name>
+	<name>checksum-a0e3fdae706d528dcf146cbad986ba9fd834440a7b500e32f04fad073e955a46e481c713ee118432f3fd5dfa1a63fc1caefd648a56a389e40e6362dfd51625b0-005</name>
 	<description>introclassJava dataset</description>
 	<inceptionYear>2015</inceptionYear>
 	<properties>

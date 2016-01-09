@@ -1,14 +1,10 @@
 package controlers;
 
-import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStreamReader;
 import java.util.Arrays;
 import java.util.Scanner;
 
-import org.apache.commons.io.FileUtils;
 import org.apache.maven.shared.invoker.DefaultInvocationRequest;
 import org.apache.maven.shared.invoker.DefaultInvoker;
 import org.apache.maven.shared.invoker.InvocationRequest;
@@ -23,54 +19,13 @@ import models.log;
  * @author benhammou
  *
  */
-public class commander {
+public class commanderMaven extends abstractCommander{
 
-	/**
-	 * Représente le dossier contenant le code à tester
-	 */
-	public static String tmpFolder = ".tmpProject/";
-	/**
-	 * représente l'enplacement du dossier MAVEN utilisé par l'invokerMaven
-	 */
-	public static String MAVEN_HOME_PATH ;
 	
-	/**
-	 * Déplacer le projet à source dans le dossier temporaire de test
-	 * @param src
-	 * @throws IOException
-	 */
 	
-	public static  void moveProjectToTmp(String src) throws IOException {
-		FileUtils.copyDirectory(new File(src),new File(tmpFolder));
+	public commanderMaven(String COMPILER_PATH) {
+		super(COMPILER_PATH);
 	}
-	
-	/**
-	 * Déplacer le dossier temporaire dans le répertoire source
-	 * (Utiliser pour définir le tmp de test comme dossier source)
-	 * @param src
-	 * @throws IOException
-	 */
-	public static  void moveTmpToProject(String src) throws IOException {
-		FileUtils.copyDirectory(new File(tmpFolder),new File(src));
-	}
-	
-	/**
-	 * vider le répertoire temporaire
-	 * @throws SecurityException
-	 * @throws IOException
-	 */
-	public static void resetTmpFolder() throws SecurityException, IOException{
-		File theDir = new File(tmpFolder);
-		// if the directory does not exist, create it
-		if (!theDir.exists()) {
-			theDir.mkdir();
-		}
-		else {
-			FileUtils.deleteDirectory(theDir);
-			resetTmpFolder();
-		}
-	}
-	
 
 	/**
 	 * Compile , test and return the number of failure
@@ -80,15 +35,13 @@ public class commander {
 	 * @throws FileNotFoundException
 	 * @throws MissingMavenLogException 
 	 */
-	public static log cleanCompileTest() throws MavenInvocationException, FileNotFoundException, MissingMavenLogException {
+	public log cleanCompileTest() throws Exception {
 	    InvocationRequest request = new DefaultInvocationRequest();
 	    request.setPomFile(new File(tmpFolder + "/pom.xml"));
 	    request.setGoals(Arrays.asList("clean","compile","test"));
 	
 	    Invoker invoker = new DefaultInvoker();
-	    
-
-	    invoker.setMavenHome(new File(MAVEN_HOME_PATH));
+	    invoker.setMavenHome(new File(COMPILER_PATH));
 	    
 	    invoker.setLocalRepositoryDirectory(new File(tmpFolder));
 	    InvocationResult result =  invoker.execute(request);
@@ -102,7 +55,7 @@ public class commander {
 	 * @throws FileNotFoundException
 	 * @throws MissingMavenLogException 
 	 */
-	public static log nbFailure(String ProjectPath) throws FileNotFoundException, MissingMavenLogException {
+	public log nbFailure(String ProjectPath) throws FileNotFoundException, MissingMavenLogException {
 		File folder = new File(ProjectPath + "/target/surefire-reports");
 		File[] listOfFiles = folder.listFiles();
 		int nbFailure = 0;

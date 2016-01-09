@@ -1,13 +1,9 @@
 package controlers;
 
-import java.io.FileNotFoundException;
 import java.io.IOException;
 
 import org.apache.maven.shared.invoker.MavenInvocationException;
-import org.junit.runner.JUnitCore;
-import org.junit.runner.Result;
 
-import Analysers.invocationsGetter;
 import Exceptions.MissingMavenLogException;
 import models.log;
 import mutantGenerators.abstractGenerator;
@@ -15,7 +11,6 @@ import mutantGenerators.mutantGeneratorLitChar;
 import mutantGenerators.mutantGeneratorLiteralInt;
 import mutantGenerators.mutantGeneratorOperator;
 import spoon.Launcher;
-import spoon.reflect.factory.Factory;
 
 /**
  * Classe principale permettant de faire boucler sur chaque mutation possible en vérifiant les corrections possibles 
@@ -25,6 +20,7 @@ import spoon.reflect.factory.Factory;
 public class app {
 	
 
+	public static abstractCommander commander = null;
 	// DEFAULT PARAMS
 	//String pomURL = "/Users/abdelrhamanebenhammou/Desktop/Back-to-the-past/Appli-Ex/pom.xml";
 	//String pomURL = "/home/m2iagl/benhammou/Bureau/Back-to-the-past/Appli-Ex/pom.xml";
@@ -41,7 +37,7 @@ public class app {
 	 * @throws MissingMavenLogException 
 	 * @throws MavenInvocationException 
 	 */
-	public static void main(String[] args) throws SecurityException, IOException, MavenInvocationException, MissingMavenLogException {
+	public static void main(String[] args) throws Exception {
 		
 		// Valider arguments
 		if(args.length != 3) {
@@ -53,8 +49,8 @@ public class app {
 			log.writeLog("'error';'0';'null'\n");
 			System.exit(1);
 		}
-		
-		commander.MAVEN_HOME_PATH = args[1];
+		//commander = new commanderMaven(args[1]);
+		commander = new commanderJunit("lib/junit-4.10.jar");
 		String pomURL = args[0];
 		int MutationNumber = Integer.parseInt(args[2]);
 	
@@ -100,7 +96,7 @@ public class app {
 		        		initialError.error = logtest.error;
 		        		initialError.failure = logtest.failure;
 		        		try {
-							commander.moveTmpToProject(ProjectPath);
+		        			commander.moveTmpToProject(ProjectPath);
 							nbDeplacement++;
 						} catch (IOException e) {
 							e.printStackTrace();
@@ -123,13 +119,9 @@ public class app {
 	 * Lancer les tests sur le projet temporaire
 	 * @param ProjectPath représente le dossier du projet source
 	 * @return
-	 * @throws IOException 
-	 * @throws SecurityException 
-	 * @throws MissingMavenLogException 
-	 * @throws MavenInvocationException 
+	 * @throws Exception
 	 */
-	public static log launchTest(String ProjectPath,boolean reset, String pomURL) throws SecurityException, IOException, MavenInvocationException, MissingMavenLogException {
-		
+	public static log launchTest(String ProjectPath,boolean reset, String pomURL) throws Exception {
 			if(reset) {
 				commander.resetTmpFolder();
 				commander.moveProjectToTmp(ProjectPath);
