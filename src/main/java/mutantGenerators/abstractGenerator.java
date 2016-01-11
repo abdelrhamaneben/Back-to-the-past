@@ -45,7 +45,6 @@ public abstract class  abstractGenerator<E extends CtElement> extends AbstractPr
 	@Override
 	public boolean isToBeProcessed(E element) {
 		if(MUTED == true) return false;
-		
 		if(trace.contains(element.getParent().getSignature()+" : "+element.getSignature() + " Value : " + this.rang)) {
 			return false;
 		}
