@@ -34,4 +34,22 @@ public class log {
 		  }
 		}
 	}
+	
+	public static void writeLogMutation(String str) {
+		FileWriter writer = null;
+		try{
+		     writer = new FileWriter("LogMutation.csv", true);
+		     writer.write(str,0,str.length());
+		}catch(IOException ex){
+		    ex.printStackTrace();
+		}finally{
+		  if(writer != null){
+		     try {
+				writer.close();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		  }
+		}
+	}
 }

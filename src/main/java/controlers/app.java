@@ -97,6 +97,7 @@ public class app {
 		        		initialError.failure = logtest.failure;
 		        		try {
 		        			commander.moveTmpToProject(ProjectPath);
+		        			log.writeLogMutation(bugDelete + ";" + gen.trace.get(gen.trace.size() -1) + ";" +pomURL+ "\n");
 							nbDeplacement++;
 						} catch (IOException e) {
 							e.printStackTrace();
