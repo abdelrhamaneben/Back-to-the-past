@@ -8,7 +8,7 @@ import java.net.MalformedURLException;
 import org.apache.commons.io.FileUtils;
 import org.apache.maven.shared.invoker.MavenInvocationException;
 
-import Exceptions.MissingMavenLogException;
+import Exceptions.UnTestableException;
 import models.log;
 
 public abstract class abstractCommander {
@@ -82,5 +82,5 @@ public abstract class abstractCommander {
 	 * @throws FileNotFoundException
 	 * @throws MissingMavenLogException 
 	 */
-	public abstract log nbFailure(String ProjectPath) throws FileNotFoundException, MissingMavenLogException ;
+	public abstract log nbFailure(String ProjectPath) throws FileNotFoundException, UnTestableException ;
 }

@@ -4,7 +4,7 @@ import java.io.IOException;
 
 import org.apache.maven.shared.invoker.MavenInvocationException;
 
-import Exceptions.MissingMavenLogException;
+import Exceptions.UnTestableException;
 import models.log;
 import mutantGenerators.abstractGenerator;
 import mutantGenerators.mutantGeneratorLitChar;

@@ -17,7 +17,7 @@ import org.junit.runner.JUnitCore;
 import org.junit.runner.Result;
 import org.junit.runner.notification.Failure;
 
-import Exceptions.MissingMavenLogException;
+import Exceptions.UnTestableException;
 import models.log;
 
 public class commanderJunit extends abstractCommander{
@@ -47,9 +47,10 @@ public class commanderJunit extends abstractCommander{
 		return file.split(pattern)[ind-2] + "." + file.split(pattern)[ind -1].replace(".java", "");
 	}
 
-	private  List<String> findJavaFiles(String path){
+	private  List<String> findJavaFiles(String path) throws UnTestableException{
 		File[] files = new File(path).listFiles();
 		List<String> pathToSources = new ArrayList<String>();
+		if(files == null) throw new UnTestableException();
 		for(File f : files){
 			if(f.isDirectory())
 				pathToSources.addAll(findJavaFiles(f.getAbsolutePath()));
@@ -77,7 +78,6 @@ public class commanderJunit extends abstractCommander{
 			System.out.println(file);
 			compiler.run(null, null, null, "-cp",  this.COMPILER_PATH +":" + this.tmpFolder + "src/main/java", file);
 		}
-			
 		
 		classLoader = URLClassLoader.newInstance(new URL[] {
 				new File(this.tmpFolder + "src/main/java/").toURI().toURL(), new File(this.tmpFolder +"src/test/java/").toURI().toURL()
@@ -100,7 +100,7 @@ public class commanderJunit extends abstractCommander{
 	}
 
 	@Override
-	public log nbFailure(String ProjectPath) throws FileNotFoundException, MissingMavenLogException {
+	public log nbFailure(String ProjectPath) throws FileNotFoundException, UnTestableException {
 		return null;
 	}
 
