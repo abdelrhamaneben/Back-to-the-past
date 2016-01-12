@@ -1,6 +1,7 @@
 package mutantGenerators;
 import java.util.ArrayList;
 
+import models.TypeVaidator;
 import spoon.processing.AbstractProcessor;
 import spoon.reflect.code.CtExpression;
 import spoon.reflect.code.CtFieldWrite;
@@ -23,7 +24,7 @@ public class mutantGeneratorLiteralInt extends abstractGenerator<CtLiteral<Integ
 
 	@Override
 	public boolean acceptableElement(CtLiteral<Integer> element) {
-		if(!element.getType().getSimpleName().equals("int")) return false;
+		if(!TypeVaidator.isNumber(element)) return false;
 		return true;
 	}
 	
