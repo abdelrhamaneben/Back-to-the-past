@@ -11,7 +11,6 @@ public abstract class  abstractGenerator<E extends CtElement> extends AbstractPr
 	 * Représente la liste des mutation précedente
 	 */
 	public static ArrayList<String> trace = new ArrayList<String>();
-	
 	/**
 	 * Represente le nombre de mutation possible
 	 */

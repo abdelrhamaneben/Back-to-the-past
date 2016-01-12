@@ -21,14 +21,8 @@ public class app {
 	
 
 	public static abstractCommander commander = null;
-	// DEFAULT PARAMS
-	//String pomURL = "/Users/abdelrhamanebenhammou/Desktop/Back-to-the-past/Appli-Ex/pom.xml";
-	//String pomURL = "/home/m2iagl/benhammou/Bureau/Back-to-the-past/Appli-Ex/pom.xml";
-	
-	// FOR MACOSX
-	//commander.MAVEN_HOME_PATH = "/usr/local/Cellar/maven/3.2.5/libexec";
-	// FOR UNIX
-	//commander.MAVEN_HOME_PATH = "/usr/share/maven";
+	public static long initial_time;
+	public static int nbMutant = 0;
 	/**
 	 * Lanceur principale
 	 * @param args prend comme unique paramètre un lien vers un fichier pom.xml contenu dans le projet à corriger
@@ -46,7 +40,7 @@ public class app {
 			System.out.println("Mutation 1 : Literal Integer changement");
 			System.out.println("Mutation 2 : Literal Character changement");
 			System.out.println("Mutation 3 : Binary Operator changement");
-			log.writeLog("'error';'0';'null'\n");
+			log.writeLog("error;0;0;'null'\n");
 			System.exit(1);
 		}
 		//commander = new commanderMaven(args[1]);
@@ -57,6 +51,8 @@ public class app {
 		String ProjectPath = pomURL.replace("pom.xml", "");
 		String inputMain = pomURL.replace("pom.xml", "src/main/java");
 		
+		initial_time = log.getCurrentTimeStamp();
+		
 		// récuperation du nombre initial de failure
 		log initialError = launchTest(ProjectPath,true,pomURL);
 		log logtest = null;
@@ -65,7 +61,7 @@ public class app {
 		
 		if(initialError.failure == 0) {
 			System.out.println("Aucun bug à corriger");
-			log.writeLog("'"+0 + "';'" + 0 + "';'" + pomURL+ "'\n");
+			log.writeLog(""+0 + ";" + 0 + ";0;"+(log.getCurrentTimeStamp() - initial_time)+";'" + pomURL+ "'\n");
 			System.exit(0);
 		}
 		
@@ -86,6 +82,7 @@ public class app {
 	        nbMutant = gen.trace.size();
 	        for(int i  = 1;i<= gen.round;i++) {
 	        	try{
+	        		nbMutant++;
 	        		gen.MUTED = false;
 		        	gen.setRang(i);
 		        	spoon.run(new String[]{"-i",inputMain,"-o",commander.tmpFolder + "/src/main/java"});
@@ -101,7 +98,7 @@ public class app {
 							nbDeplacement++;
 						} catch (IOException e) {
 							e.printStackTrace();
-							log.writeLog("'error';'2';'" + pomURL+ "'\n");
+							log.writeLog("error;2;"+nbMutant+";"+ (log.getCurrentTimeStamp() - initial_time) +";'" + pomURL+ "'\n");
 							System.exit(1);
 						}
 		        	}
@@ -110,9 +107,8 @@ public class app {
 	        	}
 	        }
 	        if(nbMutant == gen.trace.size() || initialError.failure == 0) break;
-	       
         }
-        log.writeLog("'"+bugDelete + "';'" + nbDeplacement + "';'" + pomURL+ "'\n");
+        log.writeLog(bugDelete + ";" + nbDeplacement + ";"+nbMutant+";"+(log.getCurrentTimeStamp() - initial_time)+";'" + pomURL+ "'\n");
         System.out.println( bugDelete + " Bug(s) réparé(s) soit " + nbDeplacement + " refactor du projet");
 	}
 	
@@ -130,6 +126,8 @@ public class app {
 			return commander.cleanCompileTest();
 		
 	}
+	
+	
 }
 
 

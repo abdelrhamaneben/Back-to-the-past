@@ -2,6 +2,7 @@ package models;
 
 import java.io.FileWriter;
 import java.io.IOException;
+import java.security.Timestamp;
 
 public class log {
 	public log(int failure, int error) {
@@ -51,5 +52,10 @@ public class log {
 			}
 		  }
 		}
+	}
+	
+	public static long getCurrentTimeStamp() {
+		java.util.Date date= new java.util.Date();
+		return date.getTime();
 	}
 }

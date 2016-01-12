@@ -36,13 +36,10 @@ public class mutantGeneratorOperator  extends abstractGenerator<CtBinaryOperator
 		} catch (Exception e) {
 			return false;
 		}
-				
 		if (operand.getType().toString().equals(CtTypeReference.NULL_TYPE_NAME))
 			return false;
-		
 		if (operand.toString().contains(".class"))
 			return false;
-				
 		return operand.getType().getSimpleName().equals("int")
 			|| operand.getType().getSimpleName().equals("long")
 			|| operand.getType().getSimpleName().equals("byte")
