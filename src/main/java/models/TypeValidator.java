@@ -3,7 +3,7 @@ package models;
 import spoon.reflect.code.CtExpression;
 import spoon.reflect.reference.CtTypeReference;
 
-public class TypeVaidator {
+public class TypeValidator {
 
 	public static boolean isBoolean(CtExpression<?> operand) {
 		try {

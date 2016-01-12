@@ -1,6 +1,6 @@
 package mutantGenerators;
 
-import models.TypeVaidator;
+import models.TypeValidator;
 import spoon.reflect.code.CtBinaryOperator;
 import spoon.reflect.code.CtCodeSnippetExpression;
 import spoon.reflect.code.CtCodeSnippetStatement;
@@ -29,7 +29,7 @@ public class mutantGeneratorOperator  extends abstractGenerator<CtBinaryOperator
 	@Override
 	public boolean acceptableElement(CtBinaryOperator element) {
 		
-		return TypeVaidator.isNumber(element);
+		return TypeValidator.isNumber(element);
 	}
 	
 	public String getValue() {
