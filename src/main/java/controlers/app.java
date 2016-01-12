@@ -10,6 +10,7 @@ import mutantGenerators.abstractGenerator;
 import mutantGenerators.mutantGeneratorLitChar;
 import mutantGenerators.mutantGeneratorLiteralInt;
 import mutantGenerators.mutantGeneratorOperator;
+import mutantGenerators.mutantGeneratorOperatorBoolean;
 import spoon.Launcher;
 
 /**
@@ -39,12 +40,13 @@ public class app {
 			System.out.println("Usage : commande [POM.XML PATH] [MAVEN HOME PATH] [mutation number 1-3]");
 			System.out.println("Mutation 1 : Literal Integer changement");
 			System.out.println("Mutation 2 : Literal Character changement");
-			System.out.println("Mutation 3 : Binary Operator changement");
+			System.out.println("Mutation 3 : Binary Operator(Integer) changement");
+			System.out.println("Mutation 4 : Binary Operator(Boolean) changement");
 			log.writeLog("error;0;0;'null'\n");
 			System.exit(1);
 		}
-		//commander = new commanderMaven(args[1]);
-		commander = new commanderJunit("lib/junit-4.10.jar");
+		commander = new commanderMaven(args[1]);
+		//commander = new commanderJunit(args[1]);
 		String pomURL = args[0];
 		int MutationNumber = Integer.parseInt(args[2]);
 	
@@ -70,7 +72,8 @@ public class app {
 		switch(MutationNumber) {
 			case 1 : gen = new mutantGeneratorLiteralInt();break;
 			case 2 : gen = new mutantGeneratorLitChar();break;
-			default : gen = new mutantGeneratorOperator();break;
+			case 3 : gen = new mutantGeneratorOperator();break;
+			default : gen = new mutantGeneratorOperatorBoolean();break;
 		}
 	
 		Launcher spoon = new Launcher(); 
