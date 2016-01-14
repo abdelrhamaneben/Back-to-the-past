@@ -4,7 +4,11 @@ import spoon.reflect.code.CtExpression;
 import spoon.reflect.reference.CtTypeReference;
 
 public class TypeValidator {
-
+	/**
+	 * 
+	 * @param operand
+	 * @return
+	 */
 	public static boolean isBoolean(CtExpression<?> operand) {
 		try {
 			operand.getType().getActualClass();
@@ -21,7 +25,11 @@ public class TypeValidator {
 		return operand.getType().getSimpleName().equals("boolean")
 		|| Number.class.isAssignableFrom(operand.getType().getActualClass());
 	}
-	
+	/**
+	 * 
+	 * @param operand
+	 * @return
+	 */
 	public static boolean isNumber(CtExpression<?> operand) {
 		try {
 			operand.getType().getActualClass();
