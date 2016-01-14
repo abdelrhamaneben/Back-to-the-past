@@ -40,13 +40,21 @@ public class app {
 			System.out.println("Usage : commande [POM.XML PATH] [MAVEN HOME PATH] [mutation number 1-3]");
 			System.out.println("Mutation 1 : Literal Integer changement");
 			System.out.println("Mutation 2 : Literal Character changement");
+<<<<<<< HEAD
 			System.out.println("Mutation 3 : Binary Operator(Number) changement");
+=======
+			System.out.println("Mutation 3 : Binary Operator(Integer) changement");
+>>>>>>> c495a08122e7eeb73c5450edcb679d7fb87d0b6b
 			System.out.println("Mutation 4 : Binary Operator(Boolean) changement");
 			log.writeLog("error;0;0;'null'\n");
 			System.exit(1);
 		}
 		commander = new commanderMaven(args[1]);
+<<<<<<< HEAD
 		//commander = new commanderJunit("lib/junit-4.10.jar");
+=======
+		//commander = new commanderJunit(args[1]);
+>>>>>>> c495a08122e7eeb73c5450edcb679d7fb87d0b6b
 		String pomURL = args[0];
 		int MutationNumber = Integer.parseInt(args[2]);
 	
